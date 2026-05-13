@@ -4,6 +4,5 @@ torchvision
 opencv-python-headless
 numpy==1.26.4
 pandas
-Pillow==11.2.1
 matplotlib
 scikit-learn
