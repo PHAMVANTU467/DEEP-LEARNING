@@ -1,9 +1,9 @@
-streamlit==1.35.0
-torch==2.11.0
-torchvision==0.26.0
+streamlit>=1.45.0
+torch
+torchvision
 opencv-python-headless
-numpy
+numpy==1.26.4
 pandas
-Pillow
+Pillow==11.2.1
 matplotlib
 scikit-learn
