@@ -1,0 +1,16 @@
+{
+    "name": "dataset_90_10",
+    "train_ratio": 0.9,
+    "val_ratio": 0.09999999999999998,
+    "total_raw": 25002,
+    "zero_byte": 2,
+    "duplicate": 28,
+    "corrupted": 2,
+    "total_train": 22473,
+    "total_val": 2497,
+    "train_cats": 11234,
+    "train_dogs": 11239,
+    "val_cats": 1248,
+    "val_dogs": 1249,
+    "timestamp": 1778275405.407997
+}
