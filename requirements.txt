@@ -1,9 +1,6 @@
 streamlit==1.35.0
-torch==2.2.2
-torchvision==0.17.2
+torch==2.2.2+cpu --index-url https://download.pytorch.org/whl/cpu
+torchvision==0.17.2+cpu --index-url https://download.pytorch.org/whl/cpu
 opencv-python-headless==4.9.0.80
 numpy==1.26.4
-pandas==2.2.2
 Pillow==10.3.0
-matplotlib==3.8.4
-scikit-learn==1.4.2
