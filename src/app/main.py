@@ -31,42 +31,43 @@ warnings.filterwarnings('ignore', category=UserWarning, module='PIL.TiffImagePlu
 # Cấu hình UI/UX
 st.set_page_config(page_title="AI Vision: Phân Loại Chó/Mèo", page_icon="👁️", layout="wide", initial_sidebar_state="expanded")
 
-st.markdown("""
-<style>
-    /* CSS Tùy chỉnh cho trải nghiệm người dùng cao cấp */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    h1, h2, h3 {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #1E3A8A;
-        font-weight: 700;
-    }
-    .stButton>button {
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    .stButton>button[kind="primary"] {
-        background: linear-gradient(135deg, #2563EB, #1D4ED8);
-        border: none;
-        color: white;
-        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-    }
-    .stButton>button[kind="primary"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
-    }
-    .stProgress .st-bo {
-        background-color: #2563EB;
-    }
-    div[data-testid="stMetricValue"] {
-        font-size: 1.8rem;
-        color: #047857;
-    }
-</style>
-""", unsafe_allow_html=True)
+# CSS tùy chỉnh đã bị tắt để tránh lỗi DOM trên Streamlit Cloud
+# st.markdown("""
+# <style>
+#     /* CSS Tùy chỉnh cho trải nghiệm người dùng cao cấp */
+#     .block-container {
+#         padding-top: 2rem;
+#         padding-bottom: 2rem;
+#     }
+#     h1, h2, h3 {
+#         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+#         color: #1E3A8A;
+#         font-weight: 700;
+#     }
+#     .stButton>button {
+#         border-radius: 8px;
+#         font-weight: 600;
+#         transition: all 0.3s ease;
+#     }
+#     .stButton>button[kind="primary"] {
+#         background: linear-gradient(135deg, #2563EB, #1D4ED8);
+#         border: none;
+#         color: white;
+#         box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+#     }
+#     .stButton>button[kind="primary"]:hover {
+#         transform: translateY(-2px);
+#         box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+#     }
+#     .stProgress .st-bo {
+#         background-color: #2563EB;
+#     }
+#     div[data-testid="stMetricValue"] {
+#         font-size: 1.8rem;
+#         color: #047857;
+#     }
+# </style>
+# """, unsafe_allow_html=True)
 
 # Thêm thư mục gốc (project root) vào sys.path để import các module từ src
 import sys
