@@ -3,9 +3,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import copy
 import os
+from pathlib import Path
 from typing import Dict
 import importlib
 
+import gdown
 import torch
 import torch.nn.functional as F
 
@@ -13,6 +15,7 @@ from src.app.heatmap import gradcam_visualization
 import src.models.cnn_trainer as cnn_model_mod
 import src.models.resnet_trainer as resnet_mod
 import src.core.tools as tools_mod
+from src.core.paths import PROJECT_ROOT
 
 CNNTrainer = cnn_model_mod.CNNTrainer
 ResNetTrainer = resnet_mod.ResNetTrainer
@@ -24,6 +27,45 @@ class PredictionResult:
     confidence: float
     cat_prob: float
     dog_prob: float
+
+GDRIVE_CHECKPOINT_FOLDER_URL = "https://drive.google.com/drive/folders/1yDvIzrKw8VuGUsEBLb_SPzfyDdnQmL54"
+
+
+def _download_checkpoints_from_drive() -> None:
+    output_dir = PROJECT_ROOT
+    try:
+        # Tải toàn bộ thư mục checkpoint về thư mục dự án
+        gdown.download_folder(
+            url=GDRIVE_CHECKPOINT_FOLDER_URL,
+            output=str(output_dir),
+            quiet=True,
+            use_cookies=False,
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            f"Không tải được checkpoints từ Google Drive: {exc}"
+        ) from exc
+
+
+def _checkpoint_exists(model_key: str, params: dict) -> bool:
+    for candidate in _checkpoint_candidates(model_key, params):
+        if os.path.exists(candidate):
+            return True
+    return False
+
+
+def _ensure_checkpoint_available(model_key: str, params: dict) -> None:
+    if _checkpoint_exists(model_key, params):
+        return
+
+    # Nếu chưa có checkpoint trên local, tải từ Google Drive.
+    _download_checkpoints_from_drive()
+
+    if not _checkpoint_exists(model_key, params):
+        raise FileNotFoundError(
+            f"Không tìm thấy checkpoint cho model {model_key} sau khi tải từ Google Drive."
+        )
+
 
 class BaseModel(ABC):
     def __init__(self, params: dict):
@@ -139,9 +181,14 @@ class ModelManager:
             raise ValueError(f"Model key không hợp lệ: {model_key}")
 
         try:
+            _ensure_checkpoint_available(model_key, self.base_params)
             wrapped.load_model()
         except FileNotFoundError as e:
-            raise ValueError(f"Chưa tìm thấy checkpoint cho mô hình {model_key}. Vui lòng huấn luyện mô hình này trước!") from e
+            raise ValueError(
+                f"Chưa tìm thấy checkpoint cho mô hình {model_key}. Vui lòng huấn luyện mô hình này trước hoặc kiểm tra Google Drive." 
+            ) from e
+        except RuntimeError as e:
+            raise ValueError(str(e)) from e
         except Exception as e:
             raise ValueError(f"Lỗi khi tải mô hình {model_key}: {e}") from e
 
